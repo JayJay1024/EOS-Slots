@@ -271,16 +271,19 @@ class Dice extends Component {
         return uuid.join('');
     }
 
-    fetchSlotResult = (uuid) => {
+    fetchSlotResult = (uuid, lower = '') => {
         this.eosjs.getTableRows({
             json: true,
             code: contract_account,
             scope: contract_account,
             table: 'record',
-            limit: 40
+            lower_bound: lower
         }).then(res => {
             if ( res.rows[0] ) {
-                let i = res.rows.length - 1;
+
+                // find match uuid
+                let _rows_length = res.rows.length;
+                let i = _rows_length - 1;
                 for ( ; i >= 0; i-- ) {
                     if ( res.rows[i].uuid === uuid ) {
                         this.setState({ slot_result_index: res.rows[i].result * 1 });
@@ -290,7 +293,11 @@ class Dice extends Component {
 
                 // not found, again
                 if ( i < 0 ) {
-                    this.fetchSlotResult(uuid);
+                    if ( res.more ) {
+                        this.fetchSlotResult(uuid, res.rows[_rows_length - 1].id);
+                    } else {
+                        this.fetchSlotResult(uuid);
+                    }
                 }
             }
         }).catch(e => {
