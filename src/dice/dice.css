@@ -1,0 +1,80 @@
+body {
+    width: 100%;
+}
+
+.layout {
+    width: 100%;
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+.login-logout {
+    float: left;
+    width: 140px;
+}
+
+.player-asset {
+    float: left;
+    /* width: 240px; */
+    color: #1DA57A;
+}
+
+.dice-result {
+    color: blue;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bolder;
+    font-size: 2em;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.dice-input-box {
+    width: 576px;
+    margin: auto;
+}
+
+.chip {
+    float: left;
+    margin: 0 0;
+    margin-right: 5px;
+    padding: 5px 5px;
+    background-color: antiquewhite;
+}
+
+.asset-input-box {
+    float: left;
+    padding: 5px 5px;
+    margin-left: 5px;
+    background-color: antiquewhite;
+}
+
+.asset-input {
+    margin: 0 15px;
+}
+
+.asset-multiple, .min-max {
+    margin: 0 15px;
+    width: 56px;
+}
+
+.fruits-box {
+    width: 890px;
+    height: 70px;;
+    padding: 5px 5px;
+    margin: auto;
+    margin-top: 90px;
+    background-color: antiquewhite;
+}
+
+.fruit-btn, .fruit-quantity {
+    float: left;
+    text-align: center;
+    width: 100px;
+    margin: 0 5px;
+}
+
+.bet-start {
+    width: 120px;
+    margin: auto;
+    margin-top: 20px;
+}
