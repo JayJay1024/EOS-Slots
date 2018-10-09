@@ -18,7 +18,7 @@ const contract_account = 'sihaiyijia11';
 
 const slot_result = ['Tai-King', 'Sai-King', 'Tai-Seven7', 'Sai-Seven7', 'Tai-Blink', 'Sai-Blink',
                      'Tai-Watermelon', 'Sai-Watermelon', 'Tai-Bell', 'Sai-Bell', 'Tai-Pumpkin', 'Sai-Pumpkin',
-                     'Tai-Orange', 'Sai-Orange', 'Tai-Apple', 'Sai-Apple', '...'];
+                     'Tai-Orange', 'Sai-Orange', 'Tai-Apple', 'Sai-Apple', '...', 'Waiting'];
 
 class Dice extends Component {
     constructor(props) {
@@ -237,6 +237,7 @@ class Dice extends Component {
             memo: _memo
         }).then(res => {
             Message.success('Slot Bet Success');
+            this.setState({ slot_result_index: 17 });
             this.getPlayerAsset();  // update asset after bet
             this.fetchSlotResult(_uid * 1);  // fetch result
         }).catch(e => {
