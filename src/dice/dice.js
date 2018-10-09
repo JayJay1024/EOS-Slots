@@ -420,7 +420,7 @@ class Dice extends Component {
                         <span className='player-asset'>,&nbsp;&nbsp;&nbsp;&nbsp;{this.state.player_asset.otc}</span>
                     </Header>
                     <Content>
-                        <div className='dice-result'>Dice Result Is "{slot_result[this.state.slot_result_index]}"</div>
+                        <div className='dice-result'>Slots Result Is "{slot_result[this.state.slot_result_index]}"</div>
                         <div className='dice-input-box'>
                             <div className='chip'>
                                 <Select
