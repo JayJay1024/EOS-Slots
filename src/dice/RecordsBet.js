@@ -36,40 +36,60 @@ class RecordsBet extends Component {
 
         this.state = {
             data_records: [],
+            history_record_data: [],
         }
 
         this.eosjs = null;
+        this.sortRecordData = this.sortRecordData.bind(this);
         this.fetchSlotRecord = this.fetchSlotRecord.bind(this);
     }
 
-    fetchSlotRecord = () => {
+    fetchSlotRecord = (lower = '') => {
         this.eosjs.getTableRows({
             json: true,
             code: contract_account,
             scope: contract_account,
             table: 'record',
-            limit: 40
+            limit: 20,
+            lower_bound: lower
         }).then(res => {
             if ( res.rows.length > 0 ) {
-                const _data = [];
-                for ( let i = res.rows.length - 1; i >= 0; i-- ) {
+                if ( res.more ) {
+                    this.setState({ history_record_data: [] });  // clear
+                }
+
+                const _data = this.state.history_record_data;
+                for ( let i = 0; i < res.rows.length; i++ ) {
                     _data.push({
-                        key: i,
+                        key: _data.length,
                         txtime: new Date(res.rows[i].time*1000).Format('MM/dd hh:mm:ss'),
                         account: res.rows[i].player,
                         quantity: res.rows[i].quantity,
                         payout: res.rows[i].win,
                     });
                 }
+                this.setState({ history_record_data: _data });
 
-                this.setState({ data_records: _data });
+                if ( false === res.more ) {
+                    this.setState({ data_records: this.state.history_record_data.sort(this.sortRecordData) });
+                }
             }
 
-            setTimeout(this.fetchSlotRecord, 1000);
+            if ( res.more ) {
+                setTimeout(this.fetchSlotRecord( res.rows[res.rows.length - 1].id + 1 ), 1000);
+            } else {
+                setTimeout(this.fetchSlotRecord, 1000);
+                this.setState({ history_record_data: [] });  // clear
+            }
         }).catch(e => {
             console.error(e);
             setTimeout(this.fetchSlotRecord, 2000);
+            this.setState({ history_record_data: [] });  // clear
         });
+    }
+
+    sortRecordData = (a, b) => {
+        return b.key - a.key;
     }
 
     componentDidMount = () => {
