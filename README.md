@@ -9,7 +9,7 @@
 7. yarn start
 ```
 
-#### 说明
+## 说明
 ###### 安装eosjs库
 `yarn add eosjs`
 ###### 引入eosjs库
