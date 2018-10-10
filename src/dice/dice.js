@@ -14,8 +14,9 @@ const network = {
     port: 8880,
     chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191'  // kylin net
 }
-const contract_account = 'sihaiyijia11';
+const contract_account = 'sihaiyijia11';  // 合约账号
 
+// 开奖结果返回的index对应的种类，比如index为0对应'Tai-King'
 const slot_result = ['Tai-King', 'Sai-King', 'Tai-Seven7', 'Sai-Seven7', 'Tai-Blink', 'Sai-Blink',
                      'Tai-Watermelon', 'Sai-Watermelon', 'Tai-Bell', 'Sai-Bell', 'Tai-Pumpkin', 'Sai-Pumpkin',
                      'Tai-Orange', 'Sai-Orange', 'Tai-Apple', 'Sai-Apple', '...', 'Waiting'];
@@ -25,8 +26,7 @@ class Dice extends Component {
         super(props);
 
         this.state = {
-            bet_asset: 0.0001,
-            fruit_asset: {
+            fruit_asset: {              // 记录每个种类的下注，初始为0
                 king: 0,
                 seven7: 0,
                 blink_double: 0,
@@ -36,17 +36,19 @@ class Dice extends Component {
                 orange: 0,
                 apple: 0,
             },
-            chip: 'EOS',
-            is_login: false,
-            player_account: 'Login',
-            player_asset: {
+            player_asset: {             // 记录玩家各个token的资产
                 eos: '0.0000 EOS',
                 tpt: '0.0000 TPT',
                 otc: '0.0000 OTC',
             },
-            slot_result_index: 16,  // default: '...'
+            bet_asset: 0.0001,          // 下注金额，默认值/最小值为0.0001
+            chip: 'EOS',                // 使用的token，默认EOS
+            is_login: false,
+            player_account: 'Login',    // 保存玩家账号，未登录时显示'Login'
+            slot_result_index: 16,      // 保存开奖结果返回的index，默认16，对应的是'...'
         }
 
+        // eosjs和scatter句柄，将在init()中初始化
         this.eosjs = null;
         this.scatter = null;
 
@@ -108,6 +110,7 @@ class Dice extends Component {
         }
     }
 
+    // 获取玩家token资产，这里只获取了eos token资产
     getPlayerAsset = () => {
         if ( !this.state.is_login || 'Login' === this.state.player_account ) {
             return;
@@ -152,6 +155,7 @@ class Dice extends Component {
         this.setState({ bet_asset: value });
     }
 
+    // 2x button
     setBetAssetDouble = () => {
         let _asset = this.state.bet_asset;
         if ( _asset * 2 <= 2000 ) {
@@ -159,6 +163,7 @@ class Dice extends Component {
         }
     }
 
+    // 1/2 button
     setBetAssetHalf = () => {
         let _asset = this.state.bet_asset;
         if ( _asset / 2.0 >= 0.0001 ) {
@@ -166,14 +171,17 @@ class Dice extends Component {
         }
     }
 
+    // Max button
     setBetAssetMax = () => {
         this.setState({ bet_asset: 2000 });
     }
 
+    // Min button
     setBetAssetMin = () => {
         this.setState({ bet_asset: 0.0001 });
     }
 
+    // 'Let's Start' button
     betStart = () => {
         if ( !this.state.is_login || 'Login' === this.state.player_account ) {
             Message.warning('Please Login First');
@@ -237,9 +245,9 @@ class Dice extends Component {
             memo: _memo
         }).then(res => {
             Message.success('Slot Bet Success');
-            this.setState({ slot_result_index: 17 });
-            this.getPlayerAsset();  // update asset after bet
-            this.fetchSlotResult(_uid * 1);  // fetch result
+            this.setState({ slot_result_index: 17 });   // 17对应'Waiting'
+            this.getPlayerAsset();                      // update asset after bet
+            this.fetchSlotResult(_uid * 1);             // fetch result
         }).catch(e => {
             Message.error(e.message);
         });
