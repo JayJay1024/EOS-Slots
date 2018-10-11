@@ -41,7 +41,7 @@ class Dice extends Component {
                 tpt: '0.0000 TPT',
                 otc: '0.0000 OTC',
             },
-            bet_asset: 0.0001,          // 下注金额，默认值/最小值为0.0001
+            bet_asset: 0.1,          // 下注金额，默认值/最小值为0.1
             chip: 'EOS',                // 使用的token，默认EOS
             is_login: false,
             player_account: 'Login',    // 保存玩家账号，未登录时显示'Login'
@@ -442,9 +442,9 @@ class Dice extends Component {
                             </div>
                             <div className='asset-input-box'>
                                 <InputNumber
-                                    min={0.0001}
+                                    min={0.1}
                                     max={2000}
-                                    defaultValue={0.0001}
+                                    defaultValue={0.1}
                                     precision={4}
                                     step={0.5}
                                     onChange={this.changeBetAsset.bind(this)}
