@@ -136,7 +136,7 @@ class Dice extends Component {
         this.setState({ chip: value });
 
         // update bet and fruit asset every time the chip change
-        this.setState({ bet_asset: 0.0001 });
+        this.setState({ bet_asset: 0.1 });
         this.setState({
             fruit_asset: {
                 king: 0,
@@ -166,7 +166,7 @@ class Dice extends Component {
     // 1/2 button
     setBetAssetHalf = () => {
         let _asset = this.state.bet_asset;
-        if ( _asset / 2.0 >= 0.0001 ) {
+        if ( _asset / 2.0 >= 0.1 ) {
             this.setState({ bet_asset: _asset / 2.0 });
         }
     }
@@ -178,7 +178,7 @@ class Dice extends Component {
 
     // Min button
     setBetAssetMin = () => {
-        this.setState({ bet_asset: 0.0001 });
+        this.setState({ bet_asset: 0.1 });
     }
 
     // 'Let's Start' button
